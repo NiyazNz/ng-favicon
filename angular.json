@@ -119,6 +119,41 @@
                     }
                 }
             }
+        },
+        "ng-favicon": {
+            "projectType": "library",
+            "root": "projects/ng-favicon",
+            "sourceRoot": "projects/ng-favicon/src",
+            "prefix": "nz",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-ng-packagr:build",
+                    "options": {
+                        "tsConfig": "projects/ng-favicon/tsconfig.lib.json",
+                        "project": "projects/ng-favicon/ng-package.json"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/ng-favicon/src/test.ts",
+                        "tsConfig": "projects/ng-favicon/tsconfig.spec.json",
+                        "karmaConfig": "projects/ng-favicon/karma.conf.js"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "projects/ng-favicon/tsconfig.lib.json",
+                            "projects/ng-favicon/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
+                }
+            }
         }
     },
     "defaultProject": "ng-favicon-app"
