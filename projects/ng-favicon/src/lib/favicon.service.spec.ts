@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {NgFaviconService} from './ng-favicon.service';
+import {FaviconService} from './favicon.service';
 
 
-describe('NgFaviconService', () => {
+describe('FaviconService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
     it('should be created', () => {
-        const service: NgFaviconService = TestBed.get(NgFaviconService);
+        const service: FaviconService = TestBed.get(FaviconService);
         expect(service).toBeTruthy();
     });
 });
