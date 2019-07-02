@@ -1,0 +1,82 @@
+image: node:10.16.0
+
+cache:
+    paths:
+        - node_modules/
+
+stages:
+    - test
+    - build
+    - build:app
+    - deploy
+
+variables:
+    LIB_NAME: ng-favicon
+
+before_script:
+    - npm install --silent
+
+#test:
+#    stage: test
+#    before_script:
+#        - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#        - sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+#        - apt-get update -qq && apt-get install -y -qq google-chrome-stable
+#    script:
+#        - npm run lib:test:ci
+
+build:
+    stage: build
+    script:
+        - npm run lib:build:prod
+    artifacts:
+        name: $CI_PROJECT_NAME-$CI_COMMIT_TAG
+        paths:
+            - dist/$LIB_NAME
+    only:
+        - tags
+
+build:app:
+    stage: build:app
+    dependencies:
+        - build
+    script:
+        - npm run build:pages
+    artifacts:
+        name: $CI_PROJECT_NAME-app-$CI_COMMIT_TAG
+        paths:
+            - dist/$LIB_NAME-app
+    only:
+        - tags
+
+pages:
+    stage: deploy
+    dependencies:
+        - build:app
+    before_script: []
+    cache: {}
+    script:
+        - mv dist/$LIB_NAME-app public
+    artifacts:
+        paths:
+            - public
+    variables:
+        GIT_STRATEGY: none
+    only:
+        - tags
+
+publish:
+    stage: deploy
+    dependencies:
+        - build
+    before_script: []
+    cache: {}
+    script:
+        - cd dist/$LIB_NAME/
+        - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
+        - npm publish --access=public
+    variables:
+        GIT_STRATEGY: none
+    when: manual
+    only:
+        - tags
