@@ -9,6 +9,7 @@ A simple angular service to change favicon or display unread messages and notifi
 this.faviconService.set('iconName');
 ```
 ![ng-favicon](https://gitlab.com/Enzedd/ng-favicon/uploads/965406318838c0e9872f564b6d30252f/ng-favicon.png)
+
 * Simple favicon changes
 * Configurable icon sets
 * Predefined renderers to display unread messages and notifications on top of default favicon
@@ -125,11 +126,12 @@ It is recommended to keep in sync icon count and types in html and configuration
 ```
 
 ## API
+### Methods
 #### setDefault()
 Resets favicon to default
 
 #### set()
-Sets favicon by name. Requires favicons to be configured. See [Configuration](#Configuration) section for details.
+Sets favicon by name. Requires favicons to be configured. See [Configuration](#configuration) section for details.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -141,48 +143,24 @@ Sets number overlay on default favicon. Use to display unread messages and notif
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | num | number |   | yes | Number to set
-| options | NumberRendererOptions | null | no | Options
-##### NumberRendererOptions
-| Field  | Type | Default | Required | Description |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| color | string | '#fff' | no | Number color (hex format)
-| bgColor | string | '#f00' | no | Number background color (hex format)
+| options | [NumberRendererOptions](#numberrendereroptions) | null | no | Options
 
 #### setDot()
 Sets dot overlay on default favicon. Use to indicate the presence of notifications.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| options | DotRendererOptions | null | no | Options
-##### DotRendererOptions
-| Field  | Type | Default | Required | Description |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| color | string | '#f00' | no | Dot color (hex format)
-| centerX | number | 0.7 | no | Relative position by x axis (from 0 to 1)
-| centerY | number | 0.25 | no | Relative position by y axis (from 0 to 1)
-| radius | number | 0.25 | no | Radius relative to icon size (from 0 to 1)
+| options | [DotRendererOptions](#dotrendereroptions) | null | no | Options
 
 #### setCustom()
 Sets custom favicon using GetIconFn. Use for custom implementations of favicon resolving or generation.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| getIconFn | GetIconFn |  | yes | Icon resolving or generating function
+| getIconFn | [GetIconFn](#geticonfn) |  | yes | Icon resolving or generating function
 | options | any | null | no | Options
 | cacheKey | string | null | no | Cache key. If set icon is cached and not regenerated again
-##### GetIconFn
-| Parameter  | Type | Default | Required | Description |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| options | any |  | yes | Options passed from setCustom
-| defaultIcons | [sizes: string]: Icon |  | yes | Default icons
-returns `Observable<Icon[]>`
-##### Icon
-| Field  | Type | Default | Required | Description |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| href | string |  | yes | Icon url or dataUrl
-| rel | string | null | no | Icon rel
-| type | string | null | no | Icon type
-| sizes | string | null | no | Icon size
+
 ##### Example 1: Resolve favicon
 Do any icon handling to get new favicon url
 ```typescript
@@ -234,6 +212,37 @@ setCustomFavicon2($event) {
     this.faviconService.setCustom(dotRenderer);
 }
 ```
+
+### Interfaces
+#### NumberRendererOptions
+| Field  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| color | string | '#fff' | no | Number color (hex format)
+| bgColor | string | '#f00' | no | Number background color (hex format)
+
+#### DotRendererOptions
+| Field  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| color | string | '#f00' | no | Dot color (hex format)
+| centerX | number | 0.7 | no | Relative position by x axis (from 0 to 1)
+| centerY | number | 0.25 | no | Relative position by y axis (from 0 to 1)
+| radius | number | 0.25 | no | Radius relative to icon size (from 0 to 1)
+
+#### GetIconFn
+| Parameter  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| options | any |  | yes | Options passed from setCustom
+| defaultIcons | [sizes: string]: [Icon](#icon) |  | yes | Default icons
+
+returns `Observable<Icon[]>`
+
+#### Icon
+| Field  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| href | string |  | yes | Icon url or dataUrl
+| rel | string | null | no | Icon rel
+| type | string | null | no | Icon type
+| sizes | string | null | no | Icon size
 
 ## Development
 Library location is under `projects/ng-favicon` directory of this repository.

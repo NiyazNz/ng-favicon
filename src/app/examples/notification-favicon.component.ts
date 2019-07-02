@@ -36,7 +36,7 @@ this.faviconService.setDefault();
         <hr>
         <p>Use FaviconService to display unread messages and notifications</p>
         <div lang="typescript" [code]="exampleTs"></div>
-        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#setNumber()"> documentation</a></p>
+        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#setnumber">documentation</a></p>
     `,
     styles: []
 })

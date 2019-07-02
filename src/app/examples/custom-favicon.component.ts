@@ -38,7 +38,7 @@ function customGetIconFn(options, defaultIcons?: IconMap): Observable<Icon[]> {
         <p>Use FaviconService with custom GetIconFn function to get or generate your favicons:</p>
         <div lang="typescript" [code]="exampleTs1"></div>
         <div lang="typescript" [code]="exampleTs2"></div>
-        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#setCustom()">documentation</a></p>
+        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#setcustom">documentation</a></p>
     `,
     styles: []
 })

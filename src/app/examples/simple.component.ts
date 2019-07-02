@@ -29,7 +29,7 @@ this.faviconService.setDefault();
         <hr>
         <p>Use FaviconService to set preconfigured icons by name</p>
         <div lang="typescript" [code]="exampleTs"></div>
-        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#set()">configuration</a> section of documentation
+        <p>See more in <a href="https://gitlab.com/Enzedd/ng-favicon#set">configuration</a> section of documentation
         </p>
     `,
     styles: []
