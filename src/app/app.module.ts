@@ -35,7 +35,7 @@ import {CustomFaviconComponent} from './examples/custom-favicon.component';
                     rel: 'icon',
                     type: 'image/png',
                     sizes: '32x32',
-                    href: 'http://localhost:4200/assets/images/favicons/favicon-dotted-32x32.png'
+                    href: 'assets/images/favicons/favicon-dotted-32x32.png'
                 }],
             },
         },
