@@ -1,15 +1,25 @@
 {
     "name": "ng-favicon-app",
-    "version": "0.0.0",
+    "version": "1.0.0",
+    "private": true,
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build:pages": "ng build --base-href /ng-favicon/ --deploy-url /ng-favicon/ --prod",
         "test": "ng test",
         "lint": "ng lint",
-        "e2e": "ng e2e"
+        "e2e": "ng e2e",
+        "lib:build": "ng build ng-favicon",
+        "lib:build:prod": "npm run lib:build && npm run lib:copy-files",
+        "lib:watch": "npm run lib:build -- --watch",
+        "lib:test": "ng test ng-favicon",
+        "lib:test:ci": "npm run lib:test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage",
+        "lib:copy-lic": "cp LICENSE dist/ng-favicon/LICENSE",
+        "lib:copy-readme": "cp README.md dist/ng-favicon/README.md",
+        "lib:copy-files": "npm run lib:copy-lic && npm run lib:copy-readme",
+        "publish": "cd dist/ng-favicon && npm publish --access=public"
     },
-    "private": true,
     "dependencies": {
         "@angular/animations": "~8.0.1",
         "@angular/common": "~8.0.1",
@@ -19,6 +29,7 @@
         "@angular/platform-browser": "~8.0.1",
         "@angular/platform-browser-dynamic": "~8.0.1",
         "@angular/router": "~8.0.1",
+        "prismjs": "^1.16.0",
         "rxjs": "~6.4.0",
         "tslib": "^1.9.0",
         "zone.js": "~0.9.1"
