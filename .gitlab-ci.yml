@@ -10,9 +10,6 @@ stages:
     - build:app
     - deploy
 
-variables:
-    LIB_NAME: ng-favicon
-
 before_script:
     - npm install --silent
 
@@ -32,7 +29,7 @@ build:
     artifacts:
         name: $CI_PROJECT_NAME-$CI_COMMIT_TAG
         paths:
-            - dist/$LIB_NAME
+            - dist/$CI_PROJECT_NAME
     only:
         - tags
 
@@ -45,7 +42,7 @@ build:app:
     artifacts:
         name: $CI_PROJECT_NAME-app-$CI_COMMIT_TAG
         paths:
-            - dist/$LIB_NAME-app
+            - dist/$CI_PROJECT_NAME-app
     only:
         - tags
 
@@ -56,7 +53,7 @@ pages:
     before_script: []
     cache: {}
     script:
-        - mv dist/$LIB_NAME-app public
+        - mv dist/$CI_PROJECT_NAME-app public
     artifacts:
         paths:
             - public
@@ -72,7 +69,7 @@ publish:
     before_script: []
     cache: {}
     script:
-        - cd dist/$LIB_NAME/
+        - cd dist/$CI_PROJECT_NAME/
         - echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" > .npmrc
         - npm publish --access=public
     variables:

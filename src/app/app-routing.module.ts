@@ -4,7 +4,7 @@ import {SimpleComponent} from './examples/simple.component';
 import {NotificationFaviconComponent} from './examples/notification-favicon.component';
 import {CustomFaviconComponent} from './examples/custom-favicon.component';
 
-export const PROJECT_ID = 'ng-favicon';
+export const PROJECT_NAME = 'ng-favicon';
 
 export const routes: Routes = [
     {

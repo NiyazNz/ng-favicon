@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, map, pluck} from 'rxjs/operators';
-import {PROJECT_ID} from './app-routing.module';
+import {PROJECT_NAME} from './app-routing.module';
 
 
 @Component({
@@ -11,9 +11,9 @@ import {PROJECT_ID} from './app-routing.module';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    projectName = `@enzedd/${PROJECT_ID}`;
-    repository = `https://gitlab.com/Enzedd/${PROJECT_ID}`;
-    npmUrl = `https://www.npmjs.com/package/${this.projectName}`;
+    packageName = `@enzedd/${PROJECT_NAME}`;
+    repository = `https://gitlab.com/Enzedd/${PROJECT_NAME}`;
+    npmUrl = `https://www.npmjs.com/package/${this.packageName}`;
     title: string;
     exampleSourceUrl: string;
 

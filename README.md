@@ -8,7 +8,7 @@ A simple angular service to change favicon or display unread messages and notifi
 ```html
 this.faviconService.set('iconName');
 ```
-![ng-favicon]()
+![ng-favicon](https://gitlab.com/Enzedd/ng-favicon/uploads/965406318838c0e9872f564b6d30252f/ng-favicon.png)
 * Simple favicon changes
 * Configurable icon sets
 * Predefined renderers to display unread messages and notifications on top of default favicon
