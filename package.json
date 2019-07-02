@@ -2,6 +2,31 @@
     "name": "ng-favicon-app",
     "version": "1.0.0",
     "private": true,
+    "description": "A simple angular service to change favicon or display unread messages and notifications on top of favicon",
+    "license": "MIT",
+    "author": "Niyaz Batyrshin <Niyaz.Batyrshin@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/Enzedd/ng-favicon.git"
+    },
+    "bugs": {
+        "url": "https://gitlab.com/Enzedd/ng-favicon/issues"
+    },
+    "homepage": "https://gitlab.com/Enzedd/ng-favicon",
+    "keywords": [
+        "angular",
+        "ngx",
+        "favicon",
+        "icon",
+        "browser icon",
+        "browser tab icon",
+        "favicon notification",
+        "change favicon",
+        "set favicon",
+        "generate favicon",
+        "javascript",
+        "typescript"
+    ],
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
