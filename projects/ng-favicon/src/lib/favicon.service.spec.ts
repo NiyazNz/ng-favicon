@@ -145,41 +145,39 @@ describe('FaviconService', () => {
         expect(icon).toBeIcon(icon32);
     });
 
-    it('should set custom icon', () => {
-        service.setCustom((options, defaultIcons) => of([icon32])).subscribe(() => {
-            expect(service.current).toBe(TEMP_ICON_KEY);
-            const icon = queryAndGetOneFavicon();
-            expect(icon).toBeIcon(icon32);
-        });
+    it('should set custom icon', async () => {
+        const icons = await service.setCustom((options, defaultIcons) => of([icon32])).toPromise();
+        expect(service.current).toBe(TEMP_ICON_KEY);
+        const icon = queryAndGetOneFavicon();
+        expect(icon).toBeIcon(icons[0]);
+        expect(icon).toBeIcon(icon32);
     });
 
-    it('should set dot on icon', () => {
+    it('should set dot on icon', async () => {
         mockDefaultIcons(service);
-        service.setDot().subscribe(icons => {
-            expect(service.current).toBe('dot');
-            const icon = queryAndGetOneFavicon();
-            expect(icon.href).toBeTruthy();
-            expect(icon.href).not.toBe(IMAGE_MOCK);
-        });
+        const icons = await service.setDot().toPromise();
+        expect(service.current).toBe('dot');
+        const icon = queryAndGetOneFavicon();
+        expect(icon).toBeIcon(icons[0]);
+        expect(icon.href).toBeTruthy();
+        expect(icon.href).not.toBe(IMAGE_MOCK);
     });
 
-    it('should set numbers on icon', () => {
+    it('should set numbers on icon', async () => {
         mockDefaultIcons(service);
-        service.setNumber(1).subscribe(() => {
-            expect(service.current).toBe('1');
-            const icon1 = queryAndGetOneFavicon();
-            expect(icon1.href).toBeTruthy();
-            expect(icon1.href).not.toBe(IMAGE_MOCK);
+        const icons1 = await service.setNumber(1).toPromise();
+        expect(service.current).toBe('1');
+        const icon1 = queryAndGetOneFavicon();
+        expect(icon1).toBeIcon(icons1[0]);
+        expect(icon1.href).toBeTruthy();
+        expect(icon1.href).not.toBe(IMAGE_MOCK);
 
-            mockDefaultIcons(service);
-            service.setNumber(2)
-                .subscribe(() => {
-                    expect(service.current).toBe('2');
-                    const icon2 = queryAndGetOneFavicon();
-                    expect(icon2.href).toBeTruthy();
-                    expect(icon2.href).not.toBe(IMAGE_MOCK);
-                    expect(icon2.href).not.toBe(icon1.href);
-                });
-        });
+        const icons2 = await service.setNumber(2).toPromise();
+        expect(service.current).toBe('2');
+        const icon2 = queryAndGetOneFavicon();
+        expect(icon2).toBeIcon(icons2[0]);
+        expect(icon2.href).toBeTruthy();
+        expect(icon2.href).not.toBe(IMAGE_MOCK);
+        expect(icon2.href).not.toBe(icon1.href);
     });
 });

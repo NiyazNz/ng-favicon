@@ -10,8 +10,9 @@ export const iconMatcher = {
                 const messages: string[] = [];
                 !actual.href.endsWith(expected.href) ? messages.push('href mismatches') : noop();
                 actual.rel !== expected.rel ? messages.push('rel mismatches') : noop();
-                actual.type !== expected.type ? messages.push('type mismatches') : noop();
-                actual.sizes.toString() !== expected.sizes.toString() ? messages.push('sizes mismatches') : noop();
+                (actual.type || '') !== (expected.type || '') ? messages.push('type mismatches') : noop();
+                (actual.sizes ? actual.sizes.toString() : '') !== (expected.sizes ? expected.sizes.toString() : '')
+                    ? messages.push('sizes mismatches') : noop();
                 const message = messages.join('; ');
                 return {
                     pass: !Boolean(message),
