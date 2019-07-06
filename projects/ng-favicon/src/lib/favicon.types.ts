@@ -18,5 +18,4 @@ export interface FaviconConfig {
     [name: string]: Icon | Icon[];
 }
 
-
 export type GetIconFn = (options: any, defaultIcons: IconMap) => Observable<Icon[]>;

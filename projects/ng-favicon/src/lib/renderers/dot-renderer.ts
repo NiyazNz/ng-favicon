@@ -1,11 +1,14 @@
 import {fromEvent, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {HexColor} from '../utils';
-import {Icon, IconMap} from '../types';
+import {Icon, IconMap} from '../favicon.types';
+
+
+const NO_DEFAULT_ICON = `No default favicon detected. Set at least one favicon in html document head.
+Ex: <link rel="icon" type="image/png" href="assets/images/favicons/favicon.png">`;
 
 
 export interface DotRendererOptions {
-    color?: HexColor;
+    color?: string;
     centerX?: number;
     centerY?: number;
     radius?: number;
@@ -24,7 +27,13 @@ export class DotRenderer {
     }
 
     public static render(options: DotRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
-        const icon: Icon = Object.values(defaultIcons)[0];
+        let icon: Icon = defaultIcons['32x32'];
+        if (!icon) {
+            icon = Object.values(defaultIcons)[0];
+        }
+        if (!icon) {
+            throw Error(NO_DEFAULT_ICON);
+        }
         const img: HTMLImageElement = new Image();
         img.src = icon.href;
         return fromEvent(img, 'load').pipe(

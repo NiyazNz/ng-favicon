@@ -1,6 +1,6 @@
 {
     "name": "@enzedd/ng-favicon",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "A simple angular service to change favicon or display unread messages and notifications on top of favicon",
     "license": "MIT",
     "author": "Niyaz Batyrshin <Niyaz.Batyrshin@gmail.com>",

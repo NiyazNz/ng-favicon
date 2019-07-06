@@ -6,11 +6,8 @@ export interface RgbColor {
 }
 
 
-export type HexColor = string;
-
-
 export class ColorUtils {
-    public static hexToRgba(hex: HexColor): RgbColor {
+    public static hexToRgba(hex: string): RgbColor {
         hex = hex.startsWith('#') ? hex.slice(1) : hex;
         if (![3, 4, 6, 8].includes(hex.length)) {
             throw Error('Invalid color');

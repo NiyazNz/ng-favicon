@@ -1,18 +1,20 @@
 import {combineLatest, fromEvent, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {ColorUtils, HexColor, RgbColor} from '../utils';
-import {Icon, IconMap} from '../types';
+import {ColorUtils, RgbColor} from '../color.utils';
+import {Icon, IconMap} from '../favicon.types';
 
 
 const NUMBERS_SPRITE = `data:sprite/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAKCAYAAAA0Jkn1AAAA4UlEQVRIS+2XWxKEIAwE1/sfe
 i1RqjDLMB0ftT/4ZxgeNpOAy+f3+R6hJTTVeKdLCVU91cVxYj86Xh3H6V17XI/TUz5FF8VbbILekb8GWjlKOVg5srd5rTZuZPZdrUcZhK6/6iiHlK6FQjve/
 dAsWAqQ6hx4yiGly5QOteOxRlKdK1EudWltVuujGanOHFqjT3VolNru0JqgdwLDS0DG0W+lpktlWvOdc2kGxYxU81MeRTdB+1vW30A7B7p26tBsjaZnA3Xs1
 fHi9z9+j3aAXWorANkfoOzhRTe+C7AJDuddAcvfXAVOlVH+AAAAAElFTkSuQmCC`;
+const NO_DEFAULT_ICON = `No default favicon detected. Set at least one favicon in html document head.
+Ex: <link rel="icon" type="image/png" href="assets/images/favicons/favicon.png">`;
 
 
 export interface NumberRendererOptions {
-    color?: HexColor;
-    bgColor?: HexColor;
+    color?: string;
+    bgColor?: string;
 }
 
 
@@ -24,7 +26,7 @@ export class NumberRenderer {
     bgColor = '#ff0000ff';
     contrastBorderColor = '#ffffffff';
 
-    constructor(color?: HexColor, bgColor?: HexColor, contrastBorderColor?: HexColor) {
+    constructor(color?: string, bgColor?: string, contrastBorderColor?: string) {
         this.color = color || this.color;
         this.bgColor = bgColor || this.bgColor;
         this.contrastBorderColor = contrastBorderColor || this.contrastBorderColor;
@@ -40,7 +42,7 @@ export class NumberRenderer {
         return this.getImageLoaded(NUMBERS_SPRITE);
     }
 
-    private colorize(imageData: ImageData, color: HexColor) {
+    private colorize(imageData: ImageData, color: string) {
         const c: RgbColor = ColorUtils.hexToRgba(color);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
@@ -51,12 +53,8 @@ export class NumberRenderer {
         return imageData;
     }
 
-
     public render(num: number, options: NumberRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
-        let icon: Icon = defaultIcons['32x32'];
-        if (!icon) {
-            icon = Object.values(defaultIcons)[0];
-        }
+        const icon = this.getBackgroundIcon(defaultIcons);
         return combineLatest(
             this.getSpiteLoaded(),
             this.getImageLoaded(icon.href),
@@ -92,7 +90,18 @@ export class NumberRenderer {
         );
     }
 
-    private getNumber(numbersSpriteContext, num: number, color?: HexColor) {
+    private getBackgroundIcon(defaultIcons: IconMap) {
+        let icon: Icon = defaultIcons['32x32'];
+        if (!icon) {
+            icon = Object.values(defaultIcons)[0];
+        }
+        if (!icon) {
+            throw Error(NO_DEFAULT_ICON);
+        }
+        return icon;
+    }
+
+    private getNumber(numbersSpriteContext, num: number, color?: string) {
         let numImageData = numbersSpriteContext.getImageData((num - 1) * this.numSize, 0, this.numSize, this.numSize);
         if (color) {
             numImageData = this.colorize(numImageData, color);

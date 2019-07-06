@@ -13,11 +13,19 @@ this.faviconService.setDefault();
     template: `
         <p>Click buttons below to change favicon</p>
         <p>
-            <button type="button" class="btn btn-outline-primary" (click)="setFavicon($event)">
-                Dotted favicon
+            <button type="button" class="btn btn-outline-primary" (click)="setByName($event)">
+                Set favicon
             </button>
             Click to set preconfigured dotted favicon.
         </p>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button type="button" class="btn btn-outline-primary" (click)="setFavicon($event)">
+                    Set this favicon
+                </button>
+            </div>
+            <input type="text" class="form-control" placeholder="Set your favicon" [(ngModel)]="icon">
+        </div>
         <p>
             <button type="button" class="btn btn btn-outline-primary" (click)="restoreFavicon($event)">
                 Restore
@@ -36,13 +44,19 @@ this.faviconService.setDefault();
 })
 export class SimpleComponent {
     exampleTs = EXAMPLE_TS;
+    icon = 'https://abs.twimg.com/favicons/favicon.ico';
 
     constructor(private faviconService: FaviconService) {
     }
 
-    setFavicon($event) {
+    setByName($event) {
         $event.preventDefault();
         this.faviconService.set('dotted');
+    }
+
+    setFavicon($event) {
+        $event.preventDefault();
+        this.faviconService.setIcon(this.icon);
     }
 
     restoreFavicon($event) {

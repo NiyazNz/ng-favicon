@@ -10,6 +10,7 @@ import {HeaderComponent} from './header/header.component';
 import {SidenavComponent} from './sidenav/sidenav.component';
 import {NotificationFaviconComponent} from './examples/notification-favicon.component';
 import {CustomFaviconComponent} from './examples/custom-favicon.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {CustomFaviconComponent} from './examples/custom-favicon.component';
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         FaviconModule,
         CodeModule,
         AppRoutingModule,

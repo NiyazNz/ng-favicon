@@ -135,15 +135,32 @@ Sets favicon by name. Requires favicons to be configured. See [Configuration](#c
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| name | string |  null | yes | Name of icon or icon set
+| name | string |  null | no | Name of icon or icon set. If name is null, resets to default.
+
+#### setIcon()
+| Parameter  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| href | string |  - | yes | Icon url or dataUrl
+| rel | string |  'icon' | no | Icon rel
+| type | string |  null | no | Icon type
+| sizes | string |  null | no | Icon size
+| cacheKey | string |  null | no | Cache key. If set, icon is cached and accessible by name
+
+#### setIcons()
+| Parameter  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| icons | [Icon](#Icon)[] |  - | yes | Icon set
+| cacheKey | string |  null | no | Cache key. If set, icon set is cached and accessible by name
 
 #### setNumber()
 Sets number overlay on default favicon. Use to display unread messages and notifications.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| num | number |   | yes | Number to set
+| num | number | - | yes | Number to set
 | options | [NumberRendererOptions](#numberrendereroptions) | null | no | Options
+
+returns Icon set observable
 
 #### setDot()
 Sets dot overlay on default favicon. Use to indicate the presence of notifications.
@@ -152,14 +169,18 @@ Sets dot overlay on default favicon. Use to indicate the presence of notificatio
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | options | [DotRendererOptions](#dotrendereroptions) | null | no | Options
 
+returns Icon set observable
+
 #### setCustom()
 Sets custom favicon using GetIconFn. Use for custom implementations of favicon resolving or generation.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| getIconFn | [GetIconFn](#geticonfn) |  | yes | Icon resolving or generating function
+| getIconFn | [GetIconFn](#geticonfn) | - | yes | Icon resolving or generating function
 | options | any | null | no | Options
 | cacheKey | string | null | no | Cache key. If set icon is cached and not regenerated again
+
+returns Icon set observable
 
 ##### Example 1: Resolve favicon
 Do any icon handling to get new favicon url
@@ -212,6 +233,27 @@ setCustomFavicon2($event) {
     this.faviconService.setCustom(dotRenderer);
 }
 ```
+#### cacheIcon()
+Put icon to cache in runtime. May override configured icons.
+
+| Parameter  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| name | string | - | yes | Cache key
+| href | string | - | yes | Icon url or dataUrl
+| rel | string | 'icon' | no | Icon rel
+| type | string | null | no | Icon type
+| sizes | string | null | no | Icon size
+
+#### cacheIcons()
+Put icon set to cache in runtime. May override configured icons.
+
+| Parameter  | Type | Default | Required | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| href | string | - | yes | Icon url or dataUrl
+| iconSet | [Icon](#icon)[] | - | yes | Icon set
+
+#### resetCache() 
+Resets cache to configured only favicons
 
 ### Interfaces
 #### NumberRendererOptions
