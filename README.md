@@ -4,6 +4,7 @@ A simple angular service to change favicon or display unread messages and notifi
 
 [![npm version](https://img.shields.io/npm/v/@enzedd/ng-favicon.svg)](https://npmjs.com/package/@enzedd/ng-favicon "View on npm")
 [![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/Enzedd/ng-favicon.svg)](https://gitlab.com/Enzedd/ng-favicon/pipelines)
+[![coverage report](https://gitlab.com/Enzedd/ng-favicon/badges/master/coverage.svg)](https://gitlab.com/Enzedd/ng-favicon/commits/master)
 
 ```html
 this.faviconService.set('iconName');
