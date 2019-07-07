@@ -50,13 +50,13 @@ export class NotificationFaviconComponent {
     setHasNotificationFavicon($event) {
         $event.preventDefault();
         this.messageCount = 0;
-        this.faviconService.setDot({color: '#00f'});
+        this.faviconService.setDot();
     }
 
     incrementNotificationCount($event) {
         $event.preventDefault();
         this.messageCount++;
-        this.faviconService.setNumber(this.messageCount, {bgColor: '#00f'});
+        this.faviconService.setNumber(this.messageCount);
     }
 
     restoreFavicon($event) {

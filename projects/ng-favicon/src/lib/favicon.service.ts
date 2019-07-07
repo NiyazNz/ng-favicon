@@ -1,7 +1,7 @@
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable, InjectionToken, Optional, Renderer2, RendererFactory2} from '@angular/core';
 import {noop, Observable, ReplaySubject} from 'rxjs';
-import {FaviconConfig, GetIconFn, Icon, IconMap} from './favicon.types';
+import {FaviconConfig, GetIconFn, Icon, NamedIcons, SizedIcons} from './favicon.types';
 import {DotRenderer, DotRendererOptions} from './renderers/dot-renderer';
 import {NumberRenderer, NumberRendererOptions} from './renderers/number-renderer';
 import {take} from 'rxjs/operators';
@@ -28,8 +28,8 @@ export class FaviconService {
     private renderer: Renderer2;
     private head: HTMLHeadElement;
     private _current: string = DEFAULT_ICON_KEY;
-    private _defaultIcons: IconMap;
-    private appIconsCache: FaviconConfig;
+    private _defaultIcons: SizedIcons;
+    private appIconsCache: NamedIcons = {};
 
     /**
      * Returns current icon set name
@@ -38,7 +38,7 @@ export class FaviconService {
         return this._current;
     }
 
-    private get defaultIcons(): IconMap {
+    private get defaultIcons(): SizedIcons {
         return this.backupDefaultDomIcons();
     }
 
@@ -50,6 +50,41 @@ export class FaviconService {
         this.renderer = rendererFactory.createRenderer(null, null);
         this.document = document as Document;
         this.head = document.head;
+
+        // Named icon old configuration deprecation warning
+        if (this.faviconConfig) {
+            const configKeys = new Set(['icons', 'color', 'bgColor']);
+            const keys = Object.keys(this.faviconConfig);
+            if (keys.length && keys.filter(x => !(configKeys.has(x))).length) {
+                this.faviconConfig.icons = this.faviconConfig as NamedIcons;
+                console.warn(`Deprecation warning: configuration of named icons directly in FaviconConfig is deprecated.
+Use FaviconConfig.icons instead. Example:
+
+@NgModule({
+    ...
+    providers: [
+        {
+            provide: FAVICON_CONFIG,
+            useValue: {
+                icons: {  // <-- Place your named icons here
+                    dotted: {
+                        href: 'assets/images/favicons/favicon-dotted-32x32.png'
+                        ...
+                    },
+                },
+            },
+        },
+    ],
+})
+export class AppModule {
+}`
+                );
+            }
+        }
+
+        if (!this.faviconConfig) {
+            this.faviconConfig = {};
+        }
         this.resetCache();
     }
 
@@ -57,7 +92,7 @@ export class FaviconService {
      * Resets cache to configured only favicons
      */
     public resetCache() {
-        this.appIconsCache = Object.assign({}, this.faviconConfig); // TODO change to get from faviconConfig.icons
+        this.appIconsCache = this.faviconConfig && this.faviconConfig.icons ? {...this.faviconConfig.icons} : {};
     }
 
     /**
@@ -106,6 +141,12 @@ export class FaviconService {
     public set(name?: string) {
         name = name || DEFAULT_ICON_KEY;
         const iconSet = this.getIconSet(name);
+        if (!iconSet || !iconSet.length) {
+            console.error(
+                `'${name}' icon or icon set not found. Make sure that favicons are configured correctly. ` +
+                `See https://gitlab.com/Enzedd/ng-favicon#named-favicons-configuration for details`
+            );
+        }
         this.setIcons(iconSet, name);
     }
 
@@ -129,7 +170,7 @@ export class FaviconService {
      */
     public setIcons(icons: Icon[], cacheKey?: string) {
         const name = cacheKey || TEMP_ICON_KEY;
-        if (this.isChangeRequired(name)) {
+        if (this.isChangeRequired(name) && icons && icons.length) {
             this.changeDomIcons(name, icons);
         }
     }
@@ -145,7 +186,7 @@ export class FaviconService {
      * @returns Icon set observable
      */
     public setNumber(num, options?: NumberRendererOptions): Observable<Icon[]> {
-        const renderer = new NumberRenderer();
+        const renderer = new NumberRenderer(this.faviconConfig.color, this.faviconConfig.bgColor, this.faviconConfig.color);
         const rendererFn = renderer.render.bind(renderer, num);
         return this.setCustom(rendererFn, options, num > 0 && num < 10 ? String(num) : null);
     }
@@ -159,6 +200,8 @@ export class FaviconService {
      * @returns Icon set observable
      */
     public setDot(options?: DotRendererOptions): Observable<Icon[]> {
+        options = options || {};
+        options.color = options.color || this.faviconConfig.bgColor;
         return this.setCustom(DotRenderer.renderRightTop, options, 'dot');
     }
 

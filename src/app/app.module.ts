@@ -33,12 +33,16 @@ import {FormsModule} from '@angular/forms';
         {
             provide: FAVICON_CONFIG,
             useValue: {
-                dotted: [{
-                    rel: 'icon',
-                    type: 'image/png',
-                    sizes: '32x32',
-                    href: 'assets/images/favicons/favicon-dotted-32x32.png'
-                }],
+                color: '#fff',
+                bgColor: '#00f',
+                icons: {
+                    dotted: {
+                        rel: 'icon',
+                        type: 'image/png',
+                        sizes: '32x32',
+                        href: 'assets/images/favicons/favicon-dotted-32x32.png'
+                    },
+                },
             },
         },
     ],

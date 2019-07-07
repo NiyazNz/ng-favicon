@@ -1,7 +1,7 @@
 import {combineLatest, fromEvent, Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {ColorUtils, RgbColor} from '../color.utils';
-import {Icon, IconMap} from '../favicon.types';
+import {Icon, SizedIcons} from '../favicon.types';
 
 
 const NUMBERS_SPRITE = `data:sprite/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAKCAYAAAA0Jkn1AAAA4UlEQVRIS+2XWxKEIAwE1/sfe
@@ -46,14 +46,14 @@ export class NumberRenderer {
         const c: RgbColor = ColorUtils.hexToRgba(color);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
-            data[i] = data[i + 3] ? c.r : data[i];
-            data[i + 1] = data[i + 3] ? c.g : data[i + 1];
-            data[i + 2] = data[i + 3] ? c.b : data[i + 2];
+            data[i] = data[i + 3] ? c.red : data[i];
+            data[i + 1] = data[i + 3] ? c.green : data[i + 1];
+            data[i + 2] = data[i + 3] ? c.blue : data[i + 2];
         }
         return imageData;
     }
 
-    public render(num: number, options: NumberRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
+    public render(num: number, options: NumberRendererOptions, defaultIcons: SizedIcons): Observable<Icon[]> {
         const icon = this.getBackgroundIcon(defaultIcons);
         return combineLatest(
             this.getSpiteLoaded(),
@@ -90,7 +90,7 @@ export class NumberRenderer {
         );
     }
 
-    private getBackgroundIcon(defaultIcons: IconMap) {
+    private getBackgroundIcon(defaultIcons: SizedIcons) {
         let icon: Icon = defaultIcons['32x32'];
         if (!icon) {
             icon = Object.values(defaultIcons)[0];

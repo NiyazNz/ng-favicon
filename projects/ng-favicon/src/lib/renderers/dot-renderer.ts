@@ -1,6 +1,6 @@
 import {fromEvent, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Icon, IconMap} from '../favicon.types';
+import {Icon, SizedIcons} from '../favicon.types';
 
 
 const NO_DEFAULT_ICON = `No default favicon detected. Set at least one favicon in html document head.
@@ -16,17 +16,17 @@ export interface DotRendererOptions {
 
 
 export class DotRenderer {
-    public static renderRightTop(options: DotRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
+    public static renderRightTop(options: DotRendererOptions, defaultIcons: SizedIcons): Observable<Icon[]> {
         options = Object.assign({}, options, {centerX: 0.7, centerY: 0.25});
         return DotRenderer.render(options, defaultIcons);
     }
 
-    public static renderRightBottom(options: DotRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
+    public static renderRightBottom(options: DotRendererOptions, defaultIcons: SizedIcons): Observable<Icon[]> {
         options = Object.assign({}, options, {centerX: 0.7, centerY: 0.75});
         return DotRenderer.render(options, defaultIcons);
     }
 
-    public static render(options: DotRendererOptions, defaultIcons: IconMap): Observable<Icon[]> {
+    public static render(options: DotRendererOptions, defaultIcons: SizedIcons): Observable<Icon[]> {
         let icon: Icon = defaultIcons['32x32'];
         if (!icon) {
             icon = Object.values(defaultIcons)[0];

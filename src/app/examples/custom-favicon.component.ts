@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {fromEvent, Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {FaviconService, Icon, IconMap} from '@enzedd/ng-favicon';
+import {FaviconService, Icon, SizedIcons} from '@enzedd/ng-favicon';
 
 
 const EXAMPLE_TS1 = `this.faviconService.setCustom(customGetIconFn, options);`;
@@ -50,7 +50,7 @@ export class CustomFaviconComponent {
     }
 
     setCustomFavicon1($event) {
-        function getIcon(options, defaultIcons?: IconMap): Observable<Icon[]> {
+        function getIcon(options, defaultIcons?: SizedIcons): Observable<Icon[]> {
             const icon: Icon = Object.values(defaultIcons)[0];
             const url = icon.href.slice(0, icon.href.length - 9) + 'dotted' + icon.href.slice(icon.href.length - 10, icon.href.length);
             return of([{
@@ -64,7 +64,7 @@ export class CustomFaviconComponent {
     }
 
     setCustomFavicon2($event) {
-        function dotRenderer(options, defaultIcons?: IconMap): Observable<Icon[]> {
+        function dotRenderer(options, defaultIcons?: SizedIcons): Observable<Icon[]> {
             const icon: Icon = Object.values(defaultIcons)[0];
             const img: HTMLImageElement = new Image();
             img.src = icon.href;

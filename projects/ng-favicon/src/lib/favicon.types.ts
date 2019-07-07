@@ -9,13 +9,24 @@ export interface Icon {
 }
 
 
-export interface IconMap {
+export interface SizedIcons {
     [sizes: string]: Icon;
 }
 
 
-export interface FaviconConfig {
+export interface NamedIcons {
     [name: string]: Icon | Icon[];
 }
 
-export type GetIconFn = (options: any, defaultIcons: IconMap) => Observable<Icon[]>;
+
+export interface FaviconConfig {
+    /** Named icons */
+    icons?: NamedIcons;
+    /** Text color */
+    color?: string;
+    /** Background color */
+    bgColor?: string;
+}
+
+
+export type GetIconFn = (options: any, defaultIcons: SizedIcons) => Observable<Icon[]>;

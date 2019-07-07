@@ -16,9 +16,11 @@ this.faviconService.set('iconName');
 * Predefined renderers to display unread messages and notifications on top of default favicon
 * Custom resolvers and icon generators can be plugged in
 
+
 ## Examples/Demo
 * [Demo](https://enzedd.gitlab.io/ng-favicon/)
 * A simple example can be found under `src/app` directory of this repository.
+
 
 ## Getting started
 
@@ -78,9 +80,12 @@ export class AppComponent {
     }
 }
 ```
-
+See [API](#api) section for other `FaviconService` methods 
 
 ## Configuration
+All configuration items are optional
+
+### Named favicons configuration
 Configure application favicons by providing values for `FAVICON_CONFIG` token in a NgModule e.g. src/app/app.module.ts
 ```typescript
 import {FAVICON_CONFIG} from '@enzedd/ng-favicon';
@@ -91,12 +96,14 @@ import {FAVICON_CONFIG} from '@enzedd/ng-favicon';
         {
             provide: FAVICON_CONFIG,
             useValue: {
-                dotted: [{
-                    rel: 'icon',
-                    type: 'image/png',
-                    sizes: '32x32',
-                    href: 'assets/images/favicons/favicon-dotted-32x32.png'
-                }],
+                icons: {
+                    dotted: {
+                        rel: 'icon',
+                        type: 'image/png',
+                        sizes: '32x32',
+                        href: 'assets/images/favicons/favicon-dotted-32x32.png'
+                    },
+                },
             },
         },
     ],
@@ -111,20 +118,36 @@ It is recommended to keep in sync icon count and types in html and configuration
         {
             provide: FAVICON_CONFIG,
             useValue: {
-                dotted: [
-                    {
+                icons: {
+                    dotted: [{
                         rel: 'icon', type: 'image/png', sizes: '16x16',
-                        href: 'assets/images/favicons/favicon-dotted-16x16.ico'
-                    },
-                    {
+                        href: 'assets/images/favicons/favicon-dotted-16x16.png'
+                    }, {
                         rel: 'icon', type: 'image/png', sizes: '32x32',
-                        href: 'assets/images/favicons/favicon-dotted-32x32.ico'
-                    },
-                ],
+                        href: 'assets/images/favicons/favicon-dotted-32x32.png'
+                    }],
+                },
             },
         },
     ],
 ```
+### Colors configuration
+Favicon notification text and background colors can be configured
+```typescript
+    providers: [
+        {
+            provide: FAVICON_CONFIG,
+            useValue: {
+                color: '#fff',    // favicon notification text color
+                bgColor: '#00f',  // favicon notification background color
+                icons: {
+                    ...
+                },
+            },
+        },
+    ],
+```
+
 
 ## API
 ### Methods
@@ -132,7 +155,7 @@ It is recommended to keep in sync icon count and types in html and configuration
 Resets favicon to default
 
 #### set()
-Sets favicon by name. Requires favicons to be configured. See [Configuration](#configuration) section for details.
+Sets favicon by name. Requires favicons to be configured. See [configuration](#named-favicons-configuration) section for details.
 
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -267,10 +290,12 @@ Resets cache to configured only favicons
 | color | string | '#fff' | no | Number color (hex format)
 | bgColor | string | '#f00' | no | Number background color (hex format)
 
+Options can be configured globally, see [configuration](#colors-configuration) section for details. 
+
 #### DotRendererOptions
 | Field  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| color | string | '#f00' | no | Dot color (hex format)
+| color | string | '#f00' | no | Dot color (hex format). Can be configured globally, set bgColor in [configuration](#colors-configuration).
 | centerX | number | 0.7 | no | Relative position by x axis (from 0 to 1)
 | centerY | number | 0.25 | no | Relative position by y axis (from 0 to 1)
 | radius | number | 0.25 | no | Radius relative to icon size (from 0 to 1)
@@ -290,6 +315,7 @@ returns `Observable<Icon[]>`
 | rel | string | null | no | Icon rel
 | type | string | null | no | Icon type
 | sizes | string | null | no | Icon size
+
 
 ## Development
 Library location is under `projects/ng-favicon` directory of this repository.

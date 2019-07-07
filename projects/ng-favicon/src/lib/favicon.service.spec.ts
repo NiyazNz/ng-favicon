@@ -20,7 +20,9 @@ const getIconConfigProvider = (icons: Icon | Icon[]) => {
     return {
         provide: FAVICON_CONFIG,
         useValue: {
-            test: icons,
+            icons: {
+                test: icons,
+            },
         },
     };
 };
@@ -42,6 +44,18 @@ beforeEach(() => {
 
 describe('FAVICON_CONFIG', () => {
     // tslint:disable:no-string-literal
+    it('should be optional', () => {
+        TestBed.configureTestingModule({
+            providers: [
+                FaviconService,
+            ],
+        });
+        const service: FaviconService = TestBed.get(FaviconService);
+        expect(service['faviconConfig']).not.toBeNull();
+        expect(service['faviconConfig']).toEqual({});
+        expect(service['appIconsCache']).toEqual({});
+    });
+
     it('should accept single icon object in configuration', () => {
         TestBed.configureTestingModule({
             providers: [
