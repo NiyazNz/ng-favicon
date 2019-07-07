@@ -139,6 +139,8 @@ Sets favicon by name. Requires favicons to be configured. See [Configuration](#c
 | name | string |  null | no | Name of icon or icon set. If name is null, resets to default.
 
 #### setIcon()
+Set icon
+
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | href | string |  - | yes | Icon url or dataUrl
@@ -148,6 +150,8 @@ Sets favicon by name. Requires favicons to be configured. See [Configuration](#c
 | cacheKey | string |  null | no | Cache key. If set, icon is cached and accessible by name
 
 #### setIcons()
+Set icon set
+
 | Parameter  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | icons | [Icon](#Icon)[] |  - | yes | Icon set
