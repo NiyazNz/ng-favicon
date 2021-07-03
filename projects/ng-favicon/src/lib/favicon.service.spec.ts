@@ -50,7 +50,7 @@ describe('FAVICON_CONFIG', () => {
                 FaviconService,
             ],
         });
-        const service: FaviconService = TestBed.get(FaviconService);
+        const service: FaviconService = TestBed.inject(FaviconService);
         expect(service['faviconConfig']).not.toBeNull();
         expect(service['faviconConfig']).toEqual({});
         expect(service['appIconsCache']).toEqual({});
@@ -63,7 +63,7 @@ describe('FAVICON_CONFIG', () => {
                 FaviconService,
             ],
         });
-        const service: FaviconService = TestBed.get(FaviconService);
+        const service: FaviconService = TestBed.inject(FaviconService);
         expect(service['appIconsCache']['test']).toBeTruthy();
         expect(service['appIconsCache']['test']).toBeIcon(icon32);
     });
@@ -75,7 +75,7 @@ describe('FAVICON_CONFIG', () => {
                 FaviconService,
             ],
         });
-        const service: FaviconService = TestBed.get(FaviconService);
+        const service: FaviconService = TestBed.inject(FaviconService);
         expect(service['appIconsCache']['test']).toBeTruthy();
         expect((service['appIconsCache']['test'] as Array<Icon>).length).toBe(2);
     });
@@ -91,7 +91,7 @@ describe('FaviconService.appIconsCache', () => {
                 FaviconService,
             ],
         });
-        service = TestBed.get(FaviconService);
+        service = TestBed.inject(FaviconService);
     });
 
     // tslint:disable:no-string-literal
@@ -120,7 +120,7 @@ describe('FaviconService', () => {
                 FaviconService,
             ],
         });
-        service = TestBed.get(FaviconService);
+        service = TestBed.inject(FaviconService);
         document.head.querySelectorAll('link[rel]').forEach(node => document.head.removeChild(node));
     });
 
